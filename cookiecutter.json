@@ -4,6 +4,7 @@
     "author": "MySteamUsername",
     "in_game_description": "A short mod description.",
     "include_harmony": "n",
+    "create new git": "n",
 	"create_empty_definitions": "n",
 	
 	"_visual_studio": {

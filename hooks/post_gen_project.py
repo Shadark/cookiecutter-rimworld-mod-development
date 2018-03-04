@@ -44,3 +44,24 @@ if '{{cookiecutter.include_harmony}}'[0].lower() == 'y':
               "../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name.replace(' ', '_')}}.cs")
 else:
     os.remove("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name.replace(' ', '_')}}.harmony.cs")
+
+
+
+if '{{cookiecutter.init_git}}'[0].lower() == 'y':
+    print "Initiating git.."
+    try:
+        original = os.getcwd()
+        os.chdir("../{{cookiecutter.package_name}}")
+        os.system("git init")
+        os.chdir(original)
+    except:
+        print "Could not initiate git. Maybe the 'git' command is not installed?\n", sys.exc_info()[0]
+else:
+    os.remove("../{{cookiecutter.package_name}}/.gitignore")
+    os.remove("../{{cookiecutter.package_name}}/README.md")
+    
+
+
+
+
+print "Everything done! You can open the solution with visual studio now."
