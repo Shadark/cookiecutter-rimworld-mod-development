@@ -4,7 +4,8 @@
     "author": "MySteamUsername",
     "in_game_description": "A short mod description.",
     "include_harmony": "n",
-    "create new git": "n",
+    "init_git": "n",
+    "borderless_fullscreen_debugging": "y",
 	"create_empty_definitions": "n",
 	
 	"_visual_studio": {
@@ -38,7 +39,19 @@
             "selector": "yesno",
             "url": "https://github.com/L0laapk3/cookiecutter-rimworld-mod-development/blob/master/README.md"
         },
-        "CED": {
+        "init_git": {
+            "label": "Create a new git",
+            "description": "Initialises a git in the project folder.",
+            "selector": "yesno",
+            "url": "https://github.com/L0laapk3/cookiecutter-rimworld-mod-development/blob/master/README.md"
+        },
+        "borderless_fullscreen_debugging": {
+            "label": "Debug RimWorld in Borderless Fullscreen. (You need to disable the ingame fullscreen for this to work)",
+            "description": "Starts the game with -popupwindow flag.",
+            "selector": "yesno",
+            "url": "https://github.com/L0laapk3/cookiecutter-rimworld-mod-development/blob/master/README.md"
+        },
+        "create_empty_definitions": {
             "label": "Create blank XML definition files",
             "description": "Create empty files as templates for your definitions (delete all the rest!)",
 			"selector": "yesno",

@@ -74,8 +74,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartAction>Program</StartAction>
-    <StartProgram>$(SolutionDir)..\..\RimWorldWin.exe</StartProgram>
-    <StartArguments>-popupwindow</StartArguments>
+    <StartProgram>$(SolutionDir)..\..\RimWorldWin.exe</StartProgram>{%if(borderless_fullscreen_debugging[0] == 'y')%}
+    <StartArguments>-popupwindow</StartArguments>{%endif%}
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>echo F|xcopy "$(ProjectDir)About\Preview.png" "$(TargetDir)..\About\Preview.png" /S /C /Y /K /Q /D
