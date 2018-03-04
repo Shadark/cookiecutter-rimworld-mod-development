@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>{{cookiecutter.mod_name}}</name>
+	<name> §'çàéç'è^!</name>
 	<author>{{cookiecutter.author}}</author>
 	<targetVersion>0.18.0</targetVersion>
 	<description>{{cookiecutter.in_game_description}}</description>

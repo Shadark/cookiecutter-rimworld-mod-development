@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -44,10 +44,10 @@
       <HintPath>..\..\..\RimWorldWin_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-	<None Include="..\About\**" />
-	<None Include="..\Defs\**" />
-	<None Include="..\Languages\**" />
-	<None Include="..\Patches\**" />
+	<None Include="About\**" />
+	<None Include="Defs\**" />
+	<None Include="Languages\**" />
+	<None Include="Patches\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="{{cookiecutter.mod_name.replace(' ', '_')}}.cs" />
@@ -64,14 +64,28 @@
     <StartArguments>-popupwindow</StartArguments>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>echo F|xcopy "$(ProjectDir)..\About\About-$(ConfigurationName).xml" "$(TargetDir)..\About\About.xml" /C /Y /K /Q /D
-IF /I "$(ConfigurationName)" == "Release"; echo F|xcopy "$(ProjectDir)..\About\Preview.png" "$(TargetDir)..\About\Preview.png" /S /C /Y /K /Q /D
-IF /I "$(ConfigurationName)" == "Release"; xcopy "$(ProjectDir)..\Assemblies" "$(TargetDir)..\Assemblies" /S /C /Y /K /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; xcopy "$(ProjectDir)..\Defs" "$(TargetDir)..\Defs" /S /C /Y /K  /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; xcopy "$(ProjectDir)..\Patches" "$(TargetDir)..\Patches" /S /C /Y /K  /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; xcopy "$(ProjectDir)..\Languages" "$(TargetDir)..\Languages" /S /C /Y /K  /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; xcopy "$(ProjectDir)..\Sounds" "$(TargetDir)..\Sounds" /S /C /Y /K  /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; xcopy "$(ProjectDir)..\Textures" "$(TargetDir)..\Textures" /S /C /Y /K /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\LICENSE"; copy "$(ProjectDir)..\LICENSE" "$(TargetDir)..\LICENSE" /Y</PostBuildEvent>
+    <PostBuildEvent>echo F|xcopy "$(ProjectDir)About\Preview.png" "$(TargetDir)..\About\Preview.png" /S /C /Y /K /Q /D
+xcopy "$(ProjectDir)Assemblies" "$(TargetDir)..\Assemblies" /S /C /Y /K /I /Q /D
+xcopy "$(ProjectDir)Defs" "$(TargetDir)..\Defs" /S /C /Y /K  /I /Q /D
+xcopy "$(ProjectDir)Patches" "$(TargetDir)..\Patches" /S /C /Y /K  /I /Q /D
+xcopy "$(ProjectDir)Languages" "$(TargetDir)..\Languages" /S /C /Y /K  /I /Q /D
+xcopy "$(ProjectDir)Sounds" "$(TargetDir)..\Sounds" /S /C /Y /K  /I /Q /D
+xcopy "$(ProjectDir)Textures" "$(TargetDir)..\Textures" /S /C /Y /K /I /Q /D
+IF EXIST "$(ProjectDir)LICENSE"; copy "$(ProjectDir)..\LICENSE" "$(TargetDir)..\LICENSE" /Y
+IF /I NOT "$(ConfigurationName)" == "Release"; GOTO :DEBUG
+echo F|xcopy "$(ProjectDir)About\About.xml" "$(TargetDir)..\About\About.xml" /C /Y /K /Q /D
+EXIT /B 0
+:DEBUG
+IF EXIST "$(TargetDir)..\About\About.xml" DEL /F "$(TargetDir)..\About\About.xml"
+setlocal enableextensions disabledelayedexpansion
+for /f "delims=" %%i in ('type "$(ProjectDir)About\About.xml" ') do (
+    set "line=%%i"
+    setlocal enabledelayedexpansion
+    set lin=!line:^&lt;/name^&gt;= - Dev Build^&lt;/name^&gt;!
+    &gt;&gt;"$(TargetDir)..\About\About.xml" echo(!lin:^&lt;/description^&gt;=^
+
+^(This is the dev version of {{cookiecutter.mod_name.replace('!','.').replace('<','&lt;').replace('>','&gt;')}}. The release version of About.xml is available for editing at About/About-Release.xml. Edits made on this file or on the temporary About/About.xml won't show up on the release version. Use VisualStudio to build a "Release" version of this mod when ready to upload your mod.^)^&lt;/description^&gt;!
+    endlocal
+)</PostBuildEvent>
 	</PropertyGroup>
 </Project>
