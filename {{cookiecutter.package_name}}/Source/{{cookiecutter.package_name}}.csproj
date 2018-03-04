@@ -7,8 +7,8 @@
     <ProjectGuid>{D7D21B4A-1DA7-41D8-B202-C58CA8FA62AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>{{cookiecutter.mod_name.replace(' ', '_')}}</RootNamespace>
-    <AssemblyName>{{cookiecutter.mod_name.replace(' ', '_')}}</AssemblyName>
+    <RootNamespace>{{cookiecutter.package_name}}</RootNamespace>
+    <AssemblyName>{{cookiecutter.package_name}}</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -24,11 +24,17 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\{{cookiecutter.mod_name.replace(' ', '_')}} - Release\Assemblies\</OutputPath>
+    <OutputPath>..\..\{{cookiecutter.package_name}} - Release\Assemblies\</OutputPath>
     <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup Condition="Exists('Assemblies\0Harmony.dll')">
+    <Reference Include="0Harmony">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Assemblies\0Harmony.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\RimWorldWin_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -44,13 +50,21 @@
       <HintPath>..\..\..\RimWorldWin_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+	<Folder Include="About" />
+	<Folder Include="Defs" />
+	<Folder Include="Patches" />
+	<Folder Include="Languages" />
+	<Folder Include="Textures" />
+	<Folder Include="Sounds" />
 	<None Include="About\**" />
 	<None Include="Defs\**" />
-	<None Include="Languages\**" />
 	<None Include="Patches\**" />
+	<None Include="Languages\**" />
+	<None Include="Textures\**" />
+	<None Include="Sounds\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="{{cookiecutter.mod_name.replace(' ', '_')}}.cs" />
+    <Compile Include="{{cookiecutter.package_name}}.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
