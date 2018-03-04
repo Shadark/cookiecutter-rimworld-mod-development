@@ -56,12 +56,14 @@
 	<Folder Include="Languages" />
 	<Folder Include="Textures" />
 	<Folder Include="Sounds" />
+	<Folder Include="Assemblies" />
 	<None Include="About\**" />
 	<None Include="Defs\**" />
 	<None Include="Patches\**" />
 	<None Include="Languages\**" />
 	<None Include="Textures\**" />
 	<None Include="Sounds\**" />
+	<None Include="Assemblies\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="{{cookiecutter.package_name}}.cs" />
@@ -74,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartAction>Program</StartAction>
-    <StartProgram>$(SolutionDir)..\..\RimWorldWin.exe</StartProgram>{%if(borderless_fullscreen_debugging[0] == 'y')%}
+    <StartProgram>$(SolutionDir)..\..\RimWorldWin.exe</StartProgram>{%if(cookiecutter.borderless_fullscreen_debugging[0] == 'y')%}
     <StartArguments>-popupwindow</StartArguments>{%endif%}
   </PropertyGroup>
   <PropertyGroup>
