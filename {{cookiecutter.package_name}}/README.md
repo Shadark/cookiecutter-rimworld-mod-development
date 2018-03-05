@@ -26,9 +26,9 @@ B18v1 - 28/2/2018
 - Activate the mod in RimWorld mod options.
 
 ### Credits
-L0laapk3 for extending [CookieCutter](https://github.com/L0laapk3/cookiecutter-rimworld-mod-development)
+L0laapk3 for extending [CookieCutter](https://github.com/L0laapk3/cookiecutter-rimworld-mod-development)  
 fyarn for making [CookieCutter](https://ludeon.com/forums/index.php?topic=39038.0)  
-pardeike for making [Harmony](https://github.com/pardeike/Harmony)
+pardeike for making [Harmony](https://github.com/pardeike/Harmony)  
 
 ### License
 See LICENSE file for details.

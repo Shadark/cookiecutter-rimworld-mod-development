@@ -59,7 +59,7 @@ Builds the basic Rimworld mod development file structure and sets up a sane buil
 
 ### VS Setup Automation
 - Links Rimworld and UnityEngine .dlls for importing in code
-- Sets build events to automate file management of About-$Version.xml for tagging development versions.
+- Sets build events to automate file management of About.xml for tagging development versions.
 - Clears the default set debugging and trace constants
 - Creates a VS solution with correctly defined paths
 - Clicking `Start ▶️` will preform the designated build sequence and start Rimworld.exe tied to a Visual Studio resource monitor.
