@@ -55,6 +55,7 @@
 	<Folder Include="Sounds" />
 	<Folder Include="Assemblies" />
 	<None Include="About\**" />
+	<None Include="About\Licenses\**" />
 	<None Include="Defs\**" />
 	<None Include="Patches\**" />
 	<None Include="Languages\**" />
@@ -75,6 +76,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>echo F|xcopy "$(ProjectDir)About\Preview.png" "$(TargetDir)..\About\Preview.png" /S /C /Y /K /Q /D
+xcopy "$(ProjectDir)About\Licenses" "$(TargetDir)..\About\Licenses" /S /C /Y /K /I /Q /D
 xcopy "$(ProjectDir)Assemblies" "$(TargetDir)..\Assemblies" /S /C /Y /K /I /Q /D
 xcopy "$(ProjectDir)Defs" "$(TargetDir)..\Defs" /S /C /Y /K  /I /Q /D
 xcopy "$(ProjectDir)Patches" "$(TargetDir)..\Patches" /S /C /Y /K  /I /Q /D
