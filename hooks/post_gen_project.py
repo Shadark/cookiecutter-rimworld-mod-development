@@ -30,9 +30,9 @@ if '{{cookiecutter.include_harmony}}'[0].lower() == 'y':
                         hasLicense = True
                     if (".dll" in member.filename.lower()):
                         member.filename = basename(member.filename)
-                        archive.extract(member, "../{{cookiecutter.package_name}}/Source/Assemblies")
+                        archive.extract(member, "../{{cookiecutter.package_name}}/Source/About/Licenses")
             if not hasLicense:
-                urllib.URLopener().retrieve("https://raw.githubusercontent.com/pardeike/Harmony/master/LICENSE", "../{{cookiecutter.package_name}}/Source/Assemblies/HARMONY.LICENSE")
+                urllib.URLopener().retrieve("https://raw.githubusercontent.com/pardeike/Harmony/master/LICENSE", "../{{cookiecutter.package_name}}/Source/About/Licenses/HARMONY.LICENSE")
             break
         
     except:
