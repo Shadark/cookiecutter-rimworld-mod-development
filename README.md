@@ -6,7 +6,8 @@ Builds the basic Rimworld mod development file structure and sets up a sane buil
 - Harmony Integration
 - Git Integration
 - Option to debug in borderless window
-- Refactored solution for clarity
+- Refactored solution for clarity (especially with About.xml)
+- Some other small QOL tweaks
 
 
 # Install/Setup
@@ -68,79 +69,3 @@ blabla
   
 ### Optional Debug Save Profile
 <Temporarily removed>
-
-
-- [Visual Studio Community 2017](https://www.visualstudio.com/downloads/)
-
-##### Install (if no `File -> New -> From Cookiecutter...` option is available)
-1. Open up VS Installer (In Visual Studio -> Tools -> Gets Tools and Features)
-2. Click Modify
-3. Click Individual Components
-4. Scroll to Development activities
-5. Click the Cookiecutter template support checkbox
-6. Click Modify
-
-##### Usage
-(Due to a bug in VS, you'll have to make the specific mod's folder in `[...]/Rimworld/Mods/ModName` beforehand)
-1. Open Visual Studio
-2. `File -> New -> From Cookiecutter...`
-3. Search for `rimworld`
-4. Double-click `L0laapk3/cookiecutter-rimworld-mod-development`
-5. Change the Template Options:
-   - `Create To` => `[...]/Rimworld/Mods/mod_name`
-   - `Mod name`
-   - `Author` (Use your Steam username for automatic linking of mod to profile) (can change later in About-Release.xml)
-   - `Mod Description` (not required, can change later in About-Release.xml)
-   - `Create blank XML files` (yes/no)
-6. `Create and Open Folder`
-7. In the Solution Explorer pane that comes up on the right, double click your `ModName.sln` file
-8. In the new Solution Explorer view that comes up, right click `RimWorldWin` and click `Set as Startup Project`
-9. Due to a bug in VS, you'll have to delete the folder `[...]/Rimworld/Mods/ModName - Release` after you create the project. Otherwise, you will receive an error message whenever you start the game before the first time that you build VS in Release mode.
-
-
-# Basic Features
-### Folder Structure
-This cookiecutter builds the entire standard mod folder structure, with empty folders as the default. `namespace_name` is automatically calculated.
-- {{cookiecutter.mod_name}}
-  - About
-    - About-Debug.xml
-    - About-Release.xml
-    - Preview.png
-  - Assemblies
-  - Defs
-  - Languages
-  - Patches
-  - Sounds
-  - Source
-    - Properties
-      - AssemblyInfo.cs
-    - `namespace_name`.cs
-    - `namespace_name`.csproj
-    - `namespace_name`.csproj.user
-  - Textures
-  - `namespace_name`.sln
-
-### VS Setup Automation
-- Links Rimworld and UnityEngine .dlls for importing in code
-- Sets build events to automate file management of About-$Version.xml for tagging development versions.
-- Clears the default set debugging and trace constants
-- Creates a VS solution with correctly defined paths
-- Clicking `Start ▶️` will preform the designated build sequence and start Rimworld.exe tied to a Visual Studio resource monitor.
-
-# Advanced Features
-### Debug/Release Versioning
-This cookiecutter setup takes full advantage of VS debug/release versions
-- Debug mode
-  - About-Debug.xml contains instructions on editing About-Release.xml and has a separate title for easy recognition from the Release version 
-  - Building creates an About.xml from About-Debug.xml with a "- Dev Build" tag to be easily distinguishable in the mod list
-  - The resulting .dll is placed in "{{cookiecutter.mod_name}}/Assemblies"
-- Release mode
-  - About-Release.xml is copied to "{{cookiecutter.mod_name}} - Release/About/About.xml" and does not include the "- Dev Mode" tag in its title
-  - Building utilizes scripts to create or update the Release version of the mod. Solely the essential files are copied into a separate Release mod folder for a storage-optimized version of the mod
-  
-### Optional Debug Save Profile
-<Temporarily removed>
-  
-### Accident Forgiveness
-- Edits in either generated temporary About.xml file (release or debug) won't get overwritten as long as the About-$Version.xml file it was copied from is not updated
-- Items edited in the Release directory will not be overwritten with older data from the Debug/Dev directory

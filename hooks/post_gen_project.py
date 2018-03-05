@@ -7,6 +7,8 @@ from contextlib import closing
 import requests
 from ntpath import basename
 import os
+import subprocess
+import win32com.client
 
 
 if '{{cookiecutter.include_harmony}}'[0].lower() == 'y':
@@ -39,11 +41,11 @@ if '{{cookiecutter.include_harmony}}'[0].lower() == 'y':
         print "Couldn't fetch Harmony:", sys.exc_info()[0]
         sys.exit(1)
 
-    os.remove("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name.replace(' ', '_')}}.cs")
-    os.rename("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name.replace(' ', '_')}}.harmony.cs",
-              "../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name.replace(' ', '_')}}.cs")
+    os.remove("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name}}.cs")
+    os.rename("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name}}.harmony.cs",
+              "../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name}}.cs")
 else:
-    os.remove("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name.replace(' ', '_')}}.harmony.cs")
+    os.remove("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name}}.harmony.cs")
 
 
 
@@ -62,6 +64,24 @@ else:
     
 
 
+objShell = win32com.client.Dispatch("WScript.Shell")
+vs = objShell.SpecialFolders("StartMenu") + "\\Visual Studio 2017.lnk"
+if not os.path.exists(vs):
+    vs = objShell.SpecialFolders("AllUsersPrograms") + "\\Visual Studio 2017.lnk"
+if not os.path.exists(vs):
+    print "Everything done! You can open the solution with visual studio now."
+else:
+    try:
+        vs = objShell.CreateShortCut(vs).Targetpath
+        subprocess.Popen([vs,
+                          os.path.abspath("../{{cookiecutter.package_name}}/{{cookiecutter.package_name}}.sln"),
+                          os.path.abspath("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name}}.cs")])
+        print "Everything done! Starting Visual Studio.."
+    except:
+        print "Everything done! You can open the solution with visual studio now."
 
 
-print "Everything done! You can open the solution with visual studio now."
+
+
+
+
