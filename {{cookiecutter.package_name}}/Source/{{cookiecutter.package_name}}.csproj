@@ -23,8 +23,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\{{cookiecutter.package_name}} - Release\Assemblies\</OutputPath>
+    <OutputPath>..\.vs\Release\Assemblies\</OutputPath>
     <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -62,16 +61,13 @@
 	<None Include="Textures\**" />
 	<None Include="Sounds\**" />
 	<None Include="Assemblies\**" />
+	<None Include="Properties\VERSION" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="{{cookiecutter.package_name}}.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
   <PropertyGroup>
     <StartAction>Program</StartAction>
     <StartProgram>$(SolutionDir)..\..\RimWorldWin.exe</StartProgram>{%if(cookiecutter.borderless_fullscreen_debugging[0] == 'y')%}
@@ -88,6 +84,10 @@ xcopy "$(ProjectDir)Textures" "$(TargetDir)..\Textures" /S /C /Y /K /I /Q /D
 IF EXIST "$(ProjectDir)LICENSE"; copy "$(ProjectDir)..\LICENSE" "$(TargetDir)..\LICENSE" /Y
 IF /I NOT "$(ConfigurationName)" == "Release"; GOTO :DEBUG
 echo F|xcopy "$(ProjectDir)About\About.xml" "$(TargetDir)..\About\About.xml" /C /Y /K /Q /D
+set /p version=&lt;"$(ProjectDir)properties\VERSION"
+rd /s /q "$(ProjectDir)..\..\{{cookiecutter.package_name}} %25version%25"
+xcopy  "$(TargetDir).."  "$(ProjectDir)..\..\{{cookiecutter.package_name}} %25version%25" /S /C /Y /K /I /Q /D
+powershell Compress-Archive -Path '$(ProjectDir)..\..\{{cookiecutter.package_name}} %25version%25' -DestinationPath '$(SolutionDir){{cookiecutter.package_name}} %25version%25.zip' -Force
 EXIT /B 0
 :DEBUG
 IF EXIST "$(TargetDir)..\About\About.xml" DEL /F "$(TargetDir)..\About\About.xml"
@@ -98,7 +98,7 @@ for /f "delims=" %%i in ('type "$(ProjectDir)About\About.xml" ') do (
     set lin=!line:^&lt;/name^&gt;= - Dev Build^&lt;/name^&gt;!
     &gt;&gt;"$(TargetDir)..\About\About.xml" echo(!lin:^&lt;/description^&gt;=^
 
-^(This is the dev version of {{cookiecutter.mod_name.replace('!','.').replace('<','&lt;').replace('>','&gt;')}}. The release version of About.xml is available for editing at About/About-Release.xml. Edits made on this file or on the temporary About/About.xml won't show up on the release version. Use VisualStudio to build a "Release" version of this mod when ready to upload your mod.^)^&lt;/description^&gt;!
+^(This is the dev version of {{cookiecutter.mod_name.replace('!','.').replace('<','&lt;').replace('>','&gt;')}}. To edit this file, change Source/About/About.xml. To compile an optimised release version, use VisualStudio to build a "Release" version of this mod when ready to upload your mod.^)^&lt;/description^&gt;!
     endlocal
 )</PostBuildEvent>
 	</PropertyGroup>
