@@ -7,6 +7,7 @@ Builds the basic Rimworld mod development file structure and sets up a sane buil
 - Git Integration with README.md template and .gitignore
 - Option to debug in borderless window
 - Refactored solution for clarity (especially with About.xml)
+- Easely set release version and generate zip
 - other small QOL tweaks
 
 
