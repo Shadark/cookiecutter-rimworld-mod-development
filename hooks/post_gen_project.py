@@ -11,6 +11,13 @@ import subprocess
 import win32com.client
 
 
+try:
+    if not os.path.exists("../new.bat"):
+        with open("../new.bat", "w") as file:
+            file.write("@echo off\ncookiecutter gh:L0laapk3/cookiecutter-rimworld-mod-development\nif %errorlevel% NEQ 0 pause")
+except:
+    pass
+              
 if '{{cookiecutter.include_harmony}}'[0].lower() == 'y':
     
     print "Fetching latest Harmony release info.."
@@ -79,8 +86,6 @@ else:
         print "Everything done! Starting Visual Studio.."
     except:
         print "Everything done! You can open the solution with visual studio now."
-
-
 
 
 
