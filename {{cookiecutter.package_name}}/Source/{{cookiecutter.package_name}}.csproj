@@ -29,13 +29,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup Condition="Exists('Assemblies\0Harmony.dll')">
+  <ItemGroup>{%if(cookiecutter.include_harmony[0] == 'y')%}
     <Reference Include="0Harmony">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Assemblies\0Harmony.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
+    </Reference>{%endif%}
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\RimWorldWin_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>

@@ -31,21 +31,28 @@ if '{{cookiecutter.include_harmony}}'[0].lower() == 'y':
             print "Downloading latest Harmony.."
             r = requests.get(asset['browser_download_url'], stream=True)
             hasLicense = False
+            dlls = 0
             with closing(r), zipfile.ZipFile(io.BytesIO(r.content)) as archive:
                 for member in archive.infolist():
                     if "license" in member.filename.lower():
                         member.filename = "HARMONY.LICENSE"
-                        archive.extract(member, "../{{cookiecutter.package_name}}/Source/Assemblies")
+                        archive.extract(member, "../{{cookiecutter.package_name}}/Source/About/Licenses")
                         hasLicense = True
                     if (".dll" in member.filename.lower()):
                         member.filename = basename(member.filename)
-                        archive.extract(member, "../{{cookiecutter.package_name}}/Source/About/Licenses")
+                        archive.extract(member, "../{{cookiecutter.package_name}}/Source/Assemblies")
+                        dlls = dlls + 1
             if not hasLicense:
                 urllib.URLopener().retrieve("https://raw.githubusercontent.com/pardeike/Harmony/master/LICENSE", "../{{cookiecutter.package_name}}/Source/About/Licenses/HARMONY.LICENSE")
+            if dlls < 1:
+                print "Couldn't find any dlls in harmony release zip!"
+                sys.exit(1)
+            if dlls > 1:
+                print "[WARNING] copied more than 1 dll file from the most recent Harmony release.. Careful..."
             break
         
     except:
-        print "Couldn't fetch Harmony:", sys.exc_info()[0]
+        print "Couldn't fetch Harmony!\n", sys.exc_info()[0]
         sys.exit(1)
 
     os.remove("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name}}.cs")
