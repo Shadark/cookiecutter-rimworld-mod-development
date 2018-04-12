@@ -2,12 +2,13 @@
 My version of [n-fisher's cookiecutter](https://github.com/n-fisher/cookiecutter-rimworld-mod-development).  
 Builds the basic Rimworld mod development file structure and sets up a sane build environment.
 
-### Improvements
+### Improvements over fyarns version
 - Harmony Integration
 - Git Integration with README.md template and .gitignore
 - Option to debug in borderless window
 - Refactored solution for clarity (especially with About.xml)
 - Easely set release version and generate zip
+- Option to automagically enable the mod before starting up rimworld
 - other small QOL tweaks
 
 

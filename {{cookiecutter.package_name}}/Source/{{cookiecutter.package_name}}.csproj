@@ -54,15 +54,15 @@
 	<Folder Include="Textures" />
 	<Folder Include="Sounds" />
 	<Folder Include="Assemblies" />
-	<None Include="About\**" />
-	<None Include="About\Licenses\**" />
-	<None Include="Defs\**" />
-	<None Include="Patches\**" />
-	<None Include="Languages\**" />
-	<None Include="Textures\**" />
-	<None Include="Sounds\**" />
-	<None Include="Assemblies\**" />
-	<None Include="Properties\VERSION" />
+	<Content Include="About\**" />
+	<Content Include="About\Licenses\**" />
+	<Content Include="Defs\**" />
+	<Content Include="Patches\**" />
+	<Content Include="Languages\**" />
+	<Content Include="Textures\**" />
+	<Content Include="Sounds\**" />
+	<Content Include="Assemblies\**" />
+	<Content Include="Properties\VERSION" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="{{cookiecutter.package_name}}.cs" />
