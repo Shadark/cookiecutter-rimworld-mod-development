@@ -87,21 +87,41 @@ IF EXIST "$(ProjectDir)LICENSE"; copy "$(ProjectDir)..\LICENSE" "$(TargetDir)..\
 IF /I NOT "$(ConfigurationName)" == "Release"; GOTO :DEBUG
 echo F|xcopy "$(ProjectDir)About\About.xml" "$(TargetDir)..\About\About.xml" /C /Y /K /Q /D
 set /p version=&lt;"$(ProjectDir)properties\VERSION"
-rd /s /q "$(ProjectDir)..\..\{{cookiecutter.package_name}} %25version%25"
-xcopy  "$(TargetDir).."  "$(ProjectDir)..\..\{{cookiecutter.package_name}} %25version%25" /S /C /Y /K /I /Q /D
-powershell Compress-Archive -Path '$(ProjectDir)..\..\{{cookiecutter.package_name}} %25version%25' -DestinationPath '$(SolutionDir){{cookiecutter.package_name}} %25version%25.zip' -Force
-EXIT /B 0
+rd /s /q "$(ProjectDir)..\..\$(ProjectName) %25version%25"
+xcopy  "$(TargetDir).."  "$(ProjectDir)..\..\$(ProjectName) %25version%25" /S /C /Y /K /I /Q /D
+powershell Compress-Archive -Path '$(ProjectDir)..\..\$(ProjectName) %25version%25' -DestinationPath '$(SolutionDir)$(ProjectName) %25version%25.zip' -Force
+set append= %25version%25
+GOTO :END
 :DEBUG
 IF EXIST "$(TargetDir)..\About\About.xml" DEL /F "$(TargetDir)..\About\About.xml"
 setlocal enableextensions disabledelayedexpansion
-for /f "delims=" %%i in ('type "$(ProjectDir)About\About.xml" ') do (
-    set "line=%%i"
+for /f "delims=" %25%25i in ('type "$(ProjectDir)About\About.xml" ') do (
+    set "line=%25%25i"
     setlocal enabledelayedexpansion
     set lin=!line:^&lt;/name^&gt;= - Dev Build^&lt;/name^&gt;!
     &gt;&gt;"$(TargetDir)..\About\About.xml" echo(!lin:^&lt;/description^&gt;=^
 
-^(This is the dev version of {{cookiecutter.mod_name.replace('!','.').replace('<','&lt;').replace('>','&gt;')}}. To edit this file, change Source/About/About.xml. To compile an optimised release version, use VisualStudio to build a "Release" version of this mod when ready to upload your mod.^)^&lt;/description^&gt;!
+^(This is the dev version of your mod. To edit this file, change Source/About/About.xml. To compile an optimised release version, use VisualStudio to build a "Release" version of this mod when ready to upload your mod.^)^&lt;/description^&gt;!
     endlocal
-)</PostBuildEvent>
+)
+:END
+find /i "&lt;li&gt;$(ProjectName)%25append%25&lt;/li&gt;" "%25userprofile%25\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Config\ModsConfig.xml" &gt; NUL &amp; IF ERRORLEVEL 1 (
+    echo If MsgBox("this mod is not enabled." ^&amp; vbCrLf ^&amp; "Do you want to enable it before starting RimWorld?", vbYesNo + vbQuestion, "Mod is disabled"^) = vbYes Then WScript.Quit 1 &gt; %25temp%25\TEMPmessage.vbs
+    call %25temp%25\TEMPmessage.vbs
+    IF ERRORLEVEL 1 (
+        '' &gt; "%25temp%25/ModsConfig.xml"
+        setlocal disabledelayedexpansion
+        for /f "delims=" %25%25i in ('type "%25userprofile%25\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Config\ModsConfig.xml" ') do (
+            set "line=%25%25i"
+            setlocal enabledelayedexpansion
+            if "x!line:$(ProjectName)=!"=="x!line!" &gt;&gt;"%25temp%25/ModsConfig.xml" echo(!line:^&lt;/activeMods^&gt;=  ^&lt;li^&gt;$(ProjectName)%25append%25^&lt;/li^&gt;^
+
+^  ^&lt;/activeMods^&gt;!
+            endlocal
+        )
+        copy /y "%25temp%25\ModsConfig.xml" "%25userprofile%25\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Config\ModsConfig.xml"
+    )
+)
+EXIT /B 0</PostBuildEvent>
 	</PropertyGroup>
 </Project>
