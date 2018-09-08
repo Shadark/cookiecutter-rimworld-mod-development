@@ -1,4 +1,4 @@
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import json
 import sys
 import io
@@ -20,15 +20,15 @@ except:
               
 if '{{cookiecutter.include_harmony}}'[0].lower() == 'y':
     
-    print "Fetching latest Harmony release info.."
+    print("Fetching latest Harmony release info..")
     try:
         url = "https://api.github.com/repos/pardeike/Harmony/releases/latest"
-        response = urllib.urlopen(url)
+        response = urllib.request.urlopen(url)
         data = json.loads(response.read())
         for asset in data['assets']:
             if "release" not in asset['name'].lower():
                 continue
-            print "Downloading latest Harmony.."
+            print("Downloading latest Harmony..")
             r = requests.get(asset['browser_download_url'], stream=True)
             hasLicense = False
             dlls = 0
@@ -43,16 +43,16 @@ if '{{cookiecutter.include_harmony}}'[0].lower() == 'y':
                         archive.extract(member, "../{{cookiecutter.package_name}}/Source/Assemblies")
                         dlls = dlls + 1
             if not hasLicense:
-                urllib.URLopener().retrieve("https://raw.githubusercontent.com/pardeike/Harmony/master/LICENSE", "../{{cookiecutter.package_name}}/Source/About/Licenses/HARMONY.LICENSE")
+                urllib.request.URLopener().retrieve("https://raw.githubusercontent.com/pardeike/Harmony/master/LICENSE", "../{{cookiecutter.package_name}}/Source/About/Licenses/HARMONY.LICENSE")
             if dlls < 1:
-                print "Couldn't find any dlls in harmony release zip!"
+                print("Couldn't find any dlls in harmony release zip!")
                 sys.exit(1)
             if dlls > 1:
-                print "[WARNING] copied more than 1 dll file from the most recent Harmony release.. Careful..."
+                print("[WARNING] copied more than 1 dll file from the most recent Harmony release.. Careful...")
             break
         
     except:
-        print "Couldn't fetch Harmony!\n", sys.exc_info()[0]
+        print("Couldn't fetch Harmony!\n", sys.exc_info()[0])
         sys.exit(1)
 
     os.remove("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name}}.cs")
@@ -64,14 +64,14 @@ else:
 
 
 if '{{cookiecutter.init_git}}'[0].lower() == 'y':
-    print "Initiating git.."
+    print("Initiating git..")
     try:
         original = os.getcwd()
         os.chdir("../{{cookiecutter.package_name}}")
         os.system("git init")
         os.chdir(original)
     except:
-        print "Could not initiate git. Maybe the 'git' command is not installed?\n", sys.exc_info()[0]
+        print("Could not initiate git. Maybe the 'git' command is not installed?\n", sys.exc_info()[0])
 else:
     os.remove("../{{cookiecutter.package_name}}/.gitignore")
     os.remove("../{{cookiecutter.package_name}}/README.md")
@@ -83,16 +83,16 @@ vs = objShell.SpecialFolders("StartMenu") + "\\Visual Studio 2017.lnk"
 if not os.path.exists(vs):
     vs = objShell.SpecialFolders("AllUsersPrograms") + "\\Visual Studio 2017.lnk"
 if not os.path.exists(vs):
-    print "Everything done! You can open the solution with visual studio now."
+    print("Everything done! You can open the solution with visual studio now.")
 else:
     try:
         vs = objShell.CreateShortCut(vs).Targetpath
         subprocess.Popen([vs,
                           os.path.abspath("../{{cookiecutter.package_name}}/{{cookiecutter.package_name}}.sln"),
                           os.path.abspath("../{{cookiecutter.package_name}}/Source/{{cookiecutter.package_name}}.cs")])
-        print "Everything done! Starting Visual Studio.."
+        print("Everything done! Starting Visual Studio..")
     except:
-        print "Everything done! You can open the solution with visual studio now."
+        print("Everything done! You can open the solution with visual studio now.")
 
 
 
