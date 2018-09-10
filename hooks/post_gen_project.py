@@ -14,7 +14,7 @@ import win32com.client
 try:
     if not os.path.exists("../new.bat"):
         with open("../new.bat", "w") as file:
-            file.write("@echo off\ncookiecutter gh:L0laapk3/cookiecutter-rimworld-mod-development\nif %errorlevel% NEQ 0 pause")
+            file.write("@echo off\ncookiecutter gh:shadark/cookiecutter-rimworld-mod-development\nif %errorlevel% NEQ 0 pause")
 except:
     pass
               
